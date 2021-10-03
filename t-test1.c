@@ -7,7 +7,7 @@
 #define MOTOR_RIGHT     OUTA
 #define MOTOR_LEFT      OUTB
 #define MOTOR_LYFT      OUTC
-#define MOTOR_D                 OUTD
+#define MOTOR_D                 OUTD /*används inte i nuläget*/
 #define SENSOR_TOUCH    IN1
 #define SENSOR_US       IN2
 #define SENSOR_GYRO     IN3
