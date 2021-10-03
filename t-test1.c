@@ -19,18 +19,18 @@
 
 int max_hastighet;         /* variabel för max hastighet på motorn */
 
-POOL_T touchSensor;
-int TouchReturnValue = 0;
+/*Vi måste definiera varv/längd på hjulen när robot åker*/
 
+POOL_T touchSensor;
+	int TouchReturnValue = 0;
 
 POOL_T sensor_us;
-int  usValue = 0;
+	int  usValue = 0;
+	int min_distance=4000;
 
 POOL_T gyroSensor;
-int gyroValue0 = 0;
-int gyroValue1 = 0;
-
-int min_distance=4000;
+	int gyroValue0 = 0;
+	int gyroValue1 = 0;
 
 int main( void )
 {
@@ -38,9 +38,49 @@ int main( void )
 /*------Snurra och registrera närmaste vägg-----*/	
 	
 tacho_set_speed_sp(MOTOR_LEFT, max_hastighet *0.3);
-
-                tacho_run_forever(MOTOR_BOTH);
+	
+	sensor_us=sensor_search(LEGO_EV3_US);
+        us_set_mode_us_dist_cm(sensor_us);
+        int distance;
+        while(1){
+        distance=sensor_get_value(0, sensor_us, 0);
+        printf("%d\n", distance);
+	}
+	    tacho_run_forever(MOTOR_BOTH);
                 Sleep(10000);
+	
+/*-----Kör mot närmaste registrerade avstånd-----*/
+         tacho_set_speed_sp( MOTOR_BOTH, max_hastighet*0.5);
+
+                tacho_run_forever(  MOTOR_BOTH );
+                Sleep(10000);
+	
+	touchSensor = sensor_search( LEGO_EV3_TOUCH ); 	// Registrerar en touch sensor på touchSensor-variabeln
+        touch_set_mode_touch(touchSensor); 		// anger vilken "mode" sensorn skall ha
+	
+	
+/*-----(Backar lite) Vänder 90* åt vänster-----*/
+	    tacho_set_speed_sp( MOTOR_BOTH, max_hastighet*0.3);
+
+                tacho_run_forever(  MOTOR_BOTH );
+                Sleep(2000);
+	
+        gyroSensor = sensor_search(LEGO_EV3_GYRO);
+        sensor_set_mode(gyroSensor, LEGO_EV3_GYRO_GYRO_G_AND_A);
+        sensor_set_mode(gyroSensor, LEGO_EV3_GYRO_GYRO_G_AND_A);
+
+        while(!TouchReturnValue){
+                TouchReturnValue = sensor_get_value(0, touchSensor, 0);
+                gyroValue0 = sensor_get_value(0, gyroSensor, 0);
+                gyroValue1 = sensor_get_value(1, gyroSensor, 0);
+        printf("Gyro0: %d, Gyro1: %d \n", gyroValue0, gyroValue1); /*Behövs nog inte printas på skärmen*/
+		
+		tacho_set_speed_sp( MOTOR_RIGHT, max_hastighet*0.3);
+                tacho_run_forever(  MOTOR_RIGHT );
+                Sleep(2000); /*Måste definiera varv/längd på hjulen*/
+		
+			if(gyroValue0 == -90)
+				tacho_stop; /*Måste förbättras och testas*/
 
 /*-------------Har printar vi saker pa skarmen----------------------------------*/
 
