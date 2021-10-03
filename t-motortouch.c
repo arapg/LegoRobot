@@ -8,6 +8,7 @@
 #define MOTOR_LEFT      OUTB
 #define MOTOR_LYFT      OUTC
 #define MOTOR_D                 OUTD
+
 #define SENSOR_TOUCH    IN1
 #define SENSOR_2                IN2
 #define SENSOR_3                IN3
