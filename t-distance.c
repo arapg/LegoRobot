@@ -16,7 +16,8 @@
 #define MOTOR_BOTH      ( MOTOR_LEFT | MOTOR_RIGHT ) /* Bitvis ELLER ger att b  da motorerna styrs samtidigt */
 
 int max_hastighet;         /* variabel f  r max hastighet p   motorn */
-POOL_T touchSensor, sensor_us;
+POOL_T touchSensor; 
+POOL_T sensor_us;
 POOL_T gyroSensor;
 int gyroValue0 = 0;
 int gyroValue1 = 0;
