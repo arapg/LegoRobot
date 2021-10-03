@@ -4,7 +4,7 @@
 
 #define Sleep( msec ) usleep(( msec ) * 1000 ) /* Definerar sleep, Sleep(1000)= 1 sekund */
 
-#define MOTOR_LEFT      OUTA
+#define MOTOR_LEFT      OUTA            /*Här vill vi bara ha motor A och B igång för att testa hjulen/motorerna*/
 #define MOTOR_RIGHT     OUTB
 #define MOTOR_C                 OUTC
 #define MOTOR_D                 OUTD
