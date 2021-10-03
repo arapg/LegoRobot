@@ -2,25 +2,45 @@
 #include "brick.h"
 #include <unistd.h>
 
+#define MOTOR_RIGHT	OUTA
+#define MOTOR_LEFT	OUTB
+#define MOTOR_LYFT	OUTC 		/* Motorn som lyfter/håller/släpper boken */
+#define MOTOR_D			OUTD 	/*används inte i nuläget*/
+
+#define SENSOR_TOUCH	IN1
+#define SENSOR_US	IN2
+#define SENSOR_GYRO	IN3
+#define SENSOR_COLOUR		IN4 	/*Denna sensor kommer inte användas*/
+
+	#define MOTOR_BOTH      ( MOTOR_LEFT | MOTOR_RIGHT )
+	#define MOTOR_ALLT      ( MOTOR_BOTH | MOTOR_LYFT )
+
 #define Sleep( msec ) usleep(( msec ) * 1000 ) /* Definerar sleep, Sleep(1000)= 1 sekund */
 
-#define MOTOR_RIGHT     OUTA
-#define MOTOR_LEFT      OUTB
-#define MOTOR_LYFT      OUTC
-#define MOTOR_D                 OUTD /*används inte i nuläget*/
-#define SENSOR_TOUCH    IN1
-#define SENSOR_US       IN2
-#define SENSOR_GYRO     IN3
-#define SENSOR_COLOUR           IN4
+int max_hastighet;         /* variabel för max hastighet på motorn */
 
-#define MOTOR_BOTH      ( MOTOR_LEFT | MOTOR_RIGHT ) /* Bitvis ELLER ger att b  da motorerna styrs samtidigt */
-#define MOTOR_ALLT      ( MOTOR_BOTH | MOTOR_LYFT )
-
-int max_hastighet;         /* variabel f  r max hastighet p   motorn */
 POOL_T touchSensor;
+int TouchReturnValue = 0;
+
+
+POOL_T sensor_us;
+int  usValue = 0;
+
+POOL_T gyroSensor;
+int gyroValue0 = 0;
+int gyroValue1 = 0;
+
+int min_distance=4000;
 
 int main( void )
 {
+
+/*------Snurra och registrera närmaste vägg-----*/	
+	
+tacho_set_speed_sp(MOTOR_LEFT, max_hastighet *0.3);
+
+                tacho_run_forever(MOTOR_BOTH);
+                Sleep(10000);
 
 /*-------------Har printar vi saker pa skarmen----------------------------------*/
 
