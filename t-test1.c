@@ -13,7 +13,7 @@
 #define SENSOR_COLOUR		IN4 	/*Denna sensor kommer inte användas*/
 
 	#define MOTOR_BOTH      ( MOTOR_LEFT | MOTOR_RIGHT )
-	#define MOTOR_ALLT      ( MOTOR_BOTH | MOTOR_LYFT )
+	#define MOTOR_ALLT      ( MOTOR_BOTH | MOTOR_LYFT ) /*Kommer antagligen inte behövas*/
 
 #define Sleep( msec ) usleep(( msec ) * 1000 ) /* Definerar sleep, Sleep(1000)= 1 sekund */
 
@@ -37,17 +37,21 @@ int main( void )
 
 /*------Snurra och registrera närmaste vägg-----*/	
 	
-tacho_set_speed_sp(MOTOR_LEFT, max_hastighet *0.3);
+tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *0.3);
 	
 	sensor_us=sensor_search(LEGO_EV3_US);
         us_set_mode_us_dist_cm(sensor_us);
         int distance;
         while(1){
         distance=sensor_get_value(0, sensor_us, 0);
-        printf("%d\n", distance);
+	int min_distance; /*På något sätt kom ihåg minsta avstånd*/
 	}
-	    tacho_run_forever(MOTOR_BOTH);
+	    tacho_run_forever(MOTOR_RIGHT);
                 Sleep(10000);
+		if(min_distance < ...){
+			tacho_stop(MOTOR_RIGHT);
+			Sleep(10000);
+		}
 	
 /*-----Kör mot närmaste registrerade avstånd-----*/
          tacho_set_speed_sp( MOTOR_BOTH, max_hastighet*0.5);
