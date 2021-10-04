@@ -75,7 +75,7 @@ int main( void )
         tacho_stop(MOTOR_BOTH);
 
     //sväng vänster
-    for(int i = 0; i =< 90; i++){
+    for(int i = 0; i < 91; i++){
         tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( 1));
         tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * (-1));
         tacho_run_forever(  MOTOR_BOTH );
@@ -97,22 +97,23 @@ int main( void )
 		Sleep(50);
 		tacho_stop(MOTOR_BOTH);
 	}
+}
 /*------Snurra och registrera närmaste vägg-----*/	
 	
-tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *0.3);
+/*tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *0.3);
 	
 	sensor_us=sensor_search(LEGO_EV3_US);
         us_set_mode_us_dist_cm(sensor_us);
         int distance;
         while(1){
         distance=sensor_get_value(0, sensor_us, 0);
-	int min_distance; /*På något sätt kom ihåg minsta avstånd*/
+	int min_distance; /*På något sätt kom ihåg minsta avstånd
 	}
 	    tacho_run_forever(MOTOR_RIGHT);
                 Sleep(10000);
 		if(min_distance < ...){
 			tacho_stop(MOTOR_RIGHT);
 			Sleep(10000);
-		}
+		}*/
 	
 	
