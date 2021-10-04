@@ -31,6 +31,7 @@ POOL_T sensor_us;
 POOL_T gyroSensor;
 	int gyroValue0 = 0;
 	int gyroValue1 = 0;  
+
 int turn(void){
 	int minVal = 2147483647,degrees,data;
 	us_set_mode_us_dist_cm(sensor_us);
@@ -55,7 +56,7 @@ int turn(void){
 		return degrees;
 	else
 		return degrees - 360;
-	}
+}
 int main( void )
 {
 /*-------Kallar på dist funk--------------------*/
