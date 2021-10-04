@@ -67,6 +67,27 @@ int main( void )
 		Sleep(50);
 		tacho_stop(MOTOR_BOTH);
 	}
+	
+		//kör in i väggen
+        tacho_set_speed_sp(MOTOR_BOTH, max_hastighet);
+        tacho_run_forever(  MOTOR_BOTH );
+        Sleep(1500);
+        tacho_stop(MOTOR_BOTH);
+
+    //sväng vänster
+    for(int i = 0; i =< 90; i++){
+        tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( 1));
+        tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * (-1));
+        tacho_run_forever(  MOTOR_BOTH );
+                Sleep(50);
+    tacho_stop(MOTOR_BOTH);
+    }
+//kör till lämningsplats
+    tacho_set_speed_sp(MOTOR_BOTH, max_hastighet);
+        tacho_run_forever(  MOTOR_BOTH );
+        Sleep(3000);
+        tacho_stop(MOTOR_BOTH);
+	
 	//snurra tillbaka
 	rotate *= -1;
 	while(sensor_get_value(0, gyroSensor, 0) < rotate){
@@ -93,3 +114,5 @@ tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *0.3);
 			tacho_stop(MOTOR_RIGHT);
 			Sleep(10000);
 		}
+	
+	
