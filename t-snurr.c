@@ -31,19 +31,25 @@ POOL_T sensor_us;
 POOL_T gyroSensor;
 	int gyroValue0 = 0;
 	int gyroValue1 = 0;  
-int turn(void){
+
+int turn(void)
+{
 	int minVal = 2147483647,degrees,data;
 	us_set_mode_us_dist_cm(sensor_us);
 	sensor_set_mode(gyroSensor, LEGO_EV3_GYRO_GYRO_G_AND_A);
-	for(int i = 0; i<360;i++){
+	for(int i = 0; i<360;i++)
+	{
 		//skriver data från sensor till lista
 		data = sensor_get_value(0, sensor_us, 0);
-		if(minVal > data){
+		if(minVal > data)
+		{
 			minVal = data;
 			degrees = i;
 		}
+		
 		//snurrar 1 grad
-		while(sensor_get_value(0, gyroSensor, 0) < i){
+		while(sensor_get_value(0, gyroSensor, 0) < i)
+		{
 			tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -1));
         		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 1);
 			tacho_run_forever(  MOTOR_BOTH );
@@ -55,12 +61,13 @@ int turn(void){
 		return degrees;
 	else
 		return degrees - 360;
-	}
-int main( void )
+}
+int main()
 {
 /*-------Kallar på dist funk--------------------*/
 	int rotate = turn();
-	while(sensor_get_value(0, gyroSensor, 0) < rotate){
+	while(sensor_get_value(0, gyroSensor, 0) < rotate)
+	{
 		tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -1));
 		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 1);
 		tacho_run_forever(  MOTOR_BOTH );
@@ -90,7 +97,9 @@ int main( void )
 	
 	//snurra tillbaka
 	rotate *= -1;
-	while(sensor_get_value(0, gyroSensor, 0) < rotate){
+	while(sensor_get_value(0, gyroSensor, 0) < rotate)
+	
+	{
 		tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -1));
 		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 1);
 		tacho_run_forever(  MOTOR_BOTH );
@@ -113,6 +122,6 @@ tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *0.3);
 		if(min_distance < ...){
 			tacho_stop(MOTOR_RIGHT);
 			Sleep(10000);
-		}
-	
-	
+		
+	return ( 0 );	
+}
