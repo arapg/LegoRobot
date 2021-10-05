@@ -24,7 +24,7 @@ int main( void )
 {
 
         if ( !brick_init()) return ( 1 ); /* Initialiserar EV3-klossen */
-        printf( "******||||||||||||||||||||||||||||||||||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\************************************$        
+        printf( "*************");        
         Sleep( 2000 );
 
         if ( tacho_is_plugged( MOTOR_BOTH, TACHO_TYPE__NONE_ )) {  /* TACHO_TYPE__NONE_ = Alla typer av motorer */
