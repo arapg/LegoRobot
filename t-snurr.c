@@ -64,6 +64,9 @@ int turn(void)
 }
 int main()
 {
+if(!brick_init()) return (1); 
+Sleep (1000);
+
 /*-------Kallar på dist funk--------------------*/
 	int rotate = turn();
 	while(sensor_get_value(0, gyroSensor, 0) < rotate)
