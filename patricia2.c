@@ -72,7 +72,7 @@ POOL_T touchSensor;
 			}
 		}
 
-		while (avstand != sensor_get_value(0, sensor_us, 0)) // Om avståndsvärdet inte är nuvarande avstånd så fortsätter den
+		while (avstand <= sensor_get_value(0, sensor_us, 0)) // Om avståndsvärdet inte är nuvarande avstånd så fortsätter den
 		{}
 
 		tacho_stop(MOTOR_BOTH);
