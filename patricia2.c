@@ -53,6 +53,10 @@ POOL_T touchSensor;
 			return (degrees - 360);
 }
 
+
+void snurr(){
+	
+
 int main()
 {
 	if ( !brick_init()) return ( 1 ); /* Initialiserar EV3-klossen */
