@@ -4,14 +4,14 @@
 
 #define Sleep( msec ) usleep(( msec ) * 1000 ) /* Definerar sleep, Sleep(1000)= 1 sekund */
 
-#define MOTOR_RIGHT    	OUTA
-#define MOTOR_LEFT    	OUTB
-#define MOTOR_C    		OUTC
+#define MOTOR_RIGHT    	OUTB
+#define MOTOR_LEFT    	OUTA
+#define MOTOR_C    	OUTC
 #define MOTOR_D    		OUTD
 #define SENSOR_TOUCH	IN1
-#define SENSOR_2	IN2
-#define SENSOR_3	IN3
-#define SENSOR_4	IN4
+#define SENSOR_US	IN2
+#define SENSOR_GYRO	IN3
+#define SENSOR_COLOUR		IN4
 
 #define MOTOR_BOTH     	( MOTOR_LEFT | MOTOR_RIGHT ) /* Bitvis ELLER ger att båda motorerna styrs samtidigt */
 
@@ -25,42 +25,16 @@ POOL_T touchSensor;
 	POOL_T gyroSensor;
 	int gyroValue0 = 0;
 
-/*
-	int turn(){
-		int minVal = 2147483647,degrees,data;
-		us_set_mode_us_dist_cm(sensor_us);
-		sensor_set_mode(gyroSensor, LEGO_EV3_GYRO_GYRO_G_AND_A);
-		for(int i = 0; i<360;i++){
-			//skriver data från sensor till lista
-			data = sensor_get_value(0, sensor_us, 0);
-			if(minVal > data){
-				minVal = data;
-				degrees = i;
-			}
-			//snurrar 1 grad
-			while(sensor_get_value(0, gyroSensor, 0) < i){
-				tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -0.3));
-	        		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 0.3);
-				tacho_run_forever(  MOTOR_BOTH );
-	                	Sleep(50);
-				tacho_stop(MOTOR_BOTH);
-				Sleep(50);
-			}
-		}
-		if(degrees < 180)
-			return degrees;
-		else
-			return (degrees - 360);
-}
-*/
 
 	void snurr()
 	{
+
 		int avstand = sensor_get_value(0, sensor_us, 0);
 		int rotation = sensor_get_value(0, gyroSensor, 0) + 360; //Vi skriver +360 grader för att värdet ska bli 360 grader, vi kan också prova -360 grader 
+		printf("%d \n", avstand);
 
-		tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -0.1));
-		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 0.1);
+		tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -0.05));
+		tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 0.05);
 			tacho_run_forever(  MOTOR_BOTH );
 
 		while(sensor_get_value(0, gyroSensor, 0) < rotation) // När gyro sensor värdet är mindre än rotationsvärdet så fortsätter den
@@ -70,9 +44,14 @@ POOL_T touchSensor;
 			avstand = sensor_get_value(0, sensor_us, 0);
 				printf("%d \n", avstand);
 			}
-		}
+		int sensor;
+		int rotDist;
+		rotDist = sensor_get_value(0, gyroSensor, 0);
+		sensor = sensor_get_value(0, sensor_us, 0);
+		printf("%d, %d \n", sensor, rotDist);
+}
 
-		while (avstand <= sensor_get_value(0, sensor_us, 0)) // Om avståndsvärdet inte är nuvarande avstånd så fortsätter den
+		while ((avstand + 2) <= sensor_get_value(0, sensor_us, 0)) // Om avståndsvärdet inte är nuvarande avstånd så fortsätter den
 		{}
 
 		tacho_stop(MOTOR_BOTH);
@@ -110,7 +89,9 @@ int main()
 	}
 
 	*/
-	
+	sensor_us=sensor_search(LEGO_EV3_US);
+	us_set_mode_us_dist_cm(sensor_us);	
+
 	snurr();
 	
 	touchSensor = sensor_search( LEGO_EV3_TOUCH ); // Registrerar en touch sensor på touchSensor-variabeln
