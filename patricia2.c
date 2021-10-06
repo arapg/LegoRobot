@@ -25,7 +25,7 @@ POOL_T touchSensor;
 	POOL_T gyroSensor;
 	int gyroValue0 = 0;
 
-
+/*
 	int turn(){
 		int minVal = 2147483647,degrees,data;
 		us_set_mode_us_dist_cm(sensor_us);
@@ -52,10 +52,30 @@ POOL_T touchSensor;
 		else
 			return (degrees - 360);
 }
-
+*/
 
 void snurr(){
+	int avstand = sensor_get_value(0, sensor_us, 0);
+	int rotation = sensor_get_value(0, gyroSensor, 0) + 360;
 	
+	tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -0.1));
+	tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 0.1);
+		tacho_run_forever(  MOTOR_BOTH );
+	
+	while(sensor_get_value(0, gyroSensor, 0) < rotation)
+	{
+		if(avstand > sensor_get_value(0, sensor_us, 0))
+		{
+		avstand = sensor_get_value(0, sensor_us, 0);
+			printf("%d \n", avstand);
+		}
+	}
+		while (avstand != sensor_get_value(0, sensor_us, 0))
+		{}
+	
+	tacho_stop(MOTOR_BOTH);
+	
+}
 
 int main()
 {
@@ -77,6 +97,7 @@ int main()
 
 	gyroSensor = sensor_search(LEGO_EV3_GYRO);
 
+	/*
 	int rotate = turn();
 	while(sensor_get_value(0, gyroSensor, 0) < rotate){
 		tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -1));
@@ -86,7 +107,9 @@ int main()
 		tacho_stop(MOTOR_BOTH);
 	}
 
-
+*/
+	snurr();
+	
 	touchSensor = sensor_search( LEGO_EV3_TOUCH ); // Registrerar en touch sensor på touchSensor-variabeln
 	touch_set_mode_touch(touchSensor); // anger vilken "mode" sensorn skall ha
 
