@@ -54,24 +54,26 @@ POOL_T touchSensor;
 }
 */
 
-void snurr(){
+void snurr()
+{
 	int avstand = sensor_get_value(0, sensor_us, 0);
-	int rotation = sensor_get_value(0, gyroSensor, 0) + 360;
+	int rotation = sensor_get_value(0, gyroSensor, 0) + 360; //Vi skriver +360 grader för att värdet ska bli 360 grader, vi kan också prova -360 grader 
 	
 	tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( -0.1));
 	tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * 0.1);
 		tacho_run_forever(  MOTOR_BOTH );
 	
-	while(sensor_get_value(0, gyroSensor, 0) < rotation)
+	while(sensor_get_value(0, gyroSensor, 0) < rotation) // När gyro sensor värdet är mindre än rotationsvärdet så fortsätter den
 	{
-		if(avstand > sensor_get_value(0, sensor_us, 0))
+		if(avstand > sensor_get_value(0, sensor_us, 0)) // Om avstånd är större så ersätts det med nytt värde
 		{
 		avstand = sensor_get_value(0, sensor_us, 0);
 			printf("%d \n", avstand);
 		}
 	}
-		while (avstand != sensor_get_value(0, sensor_us, 0))
-		{}
+	
+	while (avstand != sensor_get_value(0, sensor_us, 0)) // Om avståndsvärdet inte är nuvarande avstånd så fortsätter den
+	{}
 	
 	tacho_stop(MOTOR_BOTH);
 	
