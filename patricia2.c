@@ -44,6 +44,7 @@ POOL_T touchSensor;
 			avstand = sensor_get_value(0, sensor_us, 0);
 				printf("%d \n", avstand);
 			}
+			
 		int sensor;
 		int rotDist;
 		rotDist = sensor_get_value(0, gyroSensor, 0);
@@ -94,20 +95,45 @@ int main()
 
 	snurr();
 	
+	//kör in i väggen
+    tacho_set_speed_sp(MOTOR_BOTH, max_hastighet);
+    tacho_run_forever(  MOTOR_BOTH );
+    while(sensor_get_value(0, sensor_us, 0) >= 100)	
+   	{
+    	}
+    tacho_stop(MOTOR_BOTH);
+	
+	   //sväng vänster
+    int rotate = sensor_get_value(0, gyroSensor, 0) - 90;
+    tacho_set_speed_sp(MOTOR_RIGHT, max_hastighet *( 0.1));
+    tacho_set_speed_sp(MOTOR_LEFT, max_hastighet * (-0.1));
+    tacho_run_forever(  MOTOR_BOTH );
+    while(sensor_get_value(0, gyroSensor, 0) >= rotate)
+      {}
+    tacho_stop(MOTOR_BOTH);
+
+	//kör till lämningsplats
+    tacho_set_speed_sp(MOTOR_BOTH, max_hastighet);
+        tacho_run_forever(  MOTOR_BOTH );
+        Sleep(3000);
+        tacho_stop(MOTOR_BOTH);
+	
+	
 	touchSensor = sensor_search( LEGO_EV3_TOUCH ); // Registrerar en touch sensor på touchSensor-variabeln
 	touch_set_mode_touch(touchSensor); // anger vilken "mode" sensorn skall ha
 
-	tacho_set_speed_sp( MOTOR_BOTH, max_hastighet * 0.5 );  // Sätter hastigheten på båda motorerna till 50% av maxhastigheten
+	/*tacho_set_speed_sp( MOTOR_BOTH, max_hastighet * 0.5 );  // Sätter hastigheten på båda motorerna till 50% av maxhastigheten
 	/* Om man vill köra bakåt anger man negativ hastighet, till exempel max_hastighet * (-0.5) */
 
-	tacho_run_forever(  MOTOR_BOTH );
+	/*tacho_run_forever(  MOTOR_BOTH );
 	Sleep( 1000 );
 	tacho_stop( MOTOR_LEFT );
 	Sleep( 2000 );
 	tacho_stop( MOTOR_RIGHT );
 	Sleep( 2000 );
 
-	tacho_run_forever( MOTOR_BOTH );
+	tacho_run_forever( MOTOR_BOTH );*/
+	
 	while(!sensor_get_value(0, touchSensor, 0)); //Så länge touch-sensorn inte är intryckt kommer while-loopen köras
 	tacho_stop( MOTOR_BOTH );
 
